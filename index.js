@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import pg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 const app = express();
@@ -11,12 +14,12 @@ app.use(cors());
 app.use(express.json());
 
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "Major",
-    password: "chethanachar03",
-    port: 5432
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false, // Required for Render PostgreSQL
+    },
 });
+
 
 // Connect to the database
 db.connect()
@@ -265,6 +268,6 @@ app.get("/products/:id", async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(process.env.PORT || 3000, () => {
+    console.log("🚀 Server is running on port", process.env.PORT || 3000);
 });
