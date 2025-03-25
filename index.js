@@ -14,18 +14,17 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to Neon PostgreSQL Database
-const db = new pg.Client({
+const db = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-        rejectUnauthorized: true // Changed for Neon Postgres
+        rejectUnauthorized: false // Required for NeonDB
     },
 });
 
-
-// Connect to the database
+// Test the connection
 db.connect()
-    .then(() => console.log("Connected to PostgreSQL"))
-    .catch(err => console.error("Connection error:", err));
+    .then(() => console.log('Connected to NeonDB ✅'))
+    .catch(err => console.error('Database connection error ❌:', err));
 
 // POST route to handle form submission
 app.post("/register", async (req, res) => {
