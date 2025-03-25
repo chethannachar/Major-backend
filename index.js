@@ -13,10 +13,11 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
+// Connect to Neon PostgreSQL Database
 const db = new pg.Client({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-        rejectUnauthorized: false, // Required for Render PostgreSQL
+        rejectUnauthorized: true // Changed for Neon Postgres
     },
 });
 
@@ -267,7 +268,6 @@ app.get("/products/:id", async (req, res) => {
     }
 });
 
-// Start server
 app.listen(process.env.PORT || 3000, () => {
     console.log("🚀 Server is running on port", process.env.PORT || 3000);
 });
